@@ -1,0 +1,498 @@
+Perfect. This is actually the point where many developers get stuck.
+
+They know Express, JWT, Mongoose, CRUD, validation, etc., but when asked:
+
+> **"Design a backend for an Interview Scheduler."**
+
+they don't know where to start.
+
+From now on, we'll focus less on syntax and more on **thinking like a backend engineer**.
+
+---
+
+# Backend Design Mindset
+
+Before writing any code, ask yourself these questions:
+
+## 1. What is the business?
+
+Example:
+
+> Interview Scheduler
+
+Not:
+
+> Express project
+
+Not:
+
+> MongoDB project
+
+Always think about the **business** first.
+
+---
+
+## 2. Who are the users?
+
+Example:
+
+```text
+Admin
+
+Recruiter
+
+Interviewer
+
+Candidate
+```
+
+These become your **roles**.
+
+---
+
+## 3. What are the main entities?
+
+Don't think in terms of controllers yet.
+
+Think in terms of **real-world objects**.
+
+Example:
+
+```text
+Candidate
+
+Interview
+
+Job
+
+Employee
+
+Department
+
+Feedback
+```
+
+These usually become your database collections.
+
+---
+
+# Example
+
+Suppose we're designing an Interview Scheduler.
+
+Main entities:
+
+```text
+Candidate
+
+Job
+
+Interview
+
+Employee
+
+Feedback
+```
+
+Immediately you can see your models.
+
+```text
+models/
+
+candidate.model.js
+
+job.model.js
+
+interview.model.js
+
+employee.model.js
+
+feedback.model.js
+```
+
+---
+
+# Relationships
+
+Now ask:
+
+> How are these connected?
+
+Example
+
+```text
+Job
+
+↓
+
+Many Candidates
+
+↓
+
+Many Interviews
+
+↓
+
+One Interviewer
+
+↓
+
+One Feedback
+```
+
+Now you know your ObjectIds.
+
+```text
+Interview
+
+candidate
+
+job
+
+interviewer
+
+status
+```
+
+---
+
+# Features
+
+Don't think about APIs.
+
+Think about features.
+
+Example
+
+```text
+Login
+
+Create Job
+
+Apply Candidate
+
+Schedule Interview
+
+Cancel Interview
+
+Submit Feedback
+
+Hire Candidate
+
+Reject Candidate
+```
+
+Every feature becomes one or more API endpoints.
+
+---
+
+# API Design
+
+Example
+
+Authentication
+
+```http
+POST /auth/login
+POST /auth/logout
+```
+
+Candidate
+
+```http
+GET /candidates
+POST /candidates
+PATCH /candidates/:id
+DELETE /candidates/:id
+```
+
+Interview
+
+```http
+POST /interviews
+GET /interviews
+PATCH /interviews/:id
+```
+
+Notice they're **resource-based**.
+
+---
+
+# Folder Structure
+
+```text
+src/
+
+controllers/
+
+services/
+
+routes/
+
+models/
+
+middlewares/
+
+validators/
+
+utils/
+
+config/
+```
+
+You already know this.
+
+---
+
+# Database Design
+
+Now design collections.
+
+Candidate
+
+```text
+_id
+
+name
+
+email
+
+phone
+
+resume
+
+status
+```
+
+Interview
+
+```text
+_id
+
+candidate
+
+interviewer
+
+job
+
+startTime
+
+endTime
+
+status
+```
+
+Notice
+
+No implementation yet.
+
+Only design.
+
+---
+
+# Business Rules
+
+Now ask:
+
+"What rules exist?"
+
+Example
+
+```text
+Candidate cannot have two interviews at the same time.
+
+Interviewer cannot have overlapping interviews.
+
+Interview duration must be positive.
+
+Past interview cannot be edited.
+
+Only Recruiter can schedule interview.
+
+Only Interviewer can submit feedback.
+```
+
+These become service logic.
+
+---
+
+# Middleware
+
+Authentication
+
+↓
+
+Authorization
+
+↓
+
+Validation
+
+↓
+
+Controller
+
+You already know this.
+
+---
+
+# Error Cases
+
+Good engineers think about failures before code.
+
+Example
+
+```text
+Candidate not found
+
+Interviewer unavailable
+
+Time overlap
+
+Job closed
+
+Unauthorized recruiter
+
+Invalid resume
+
+Duplicate email
+```
+
+---
+
+# Response Design
+
+Example
+
+```json
+{
+    "success": true,
+    "message": "Interview scheduled successfully",
+    "data": {
+        ...
+    }
+}
+```
+
+Consistency matters.
+
+---
+
+# Logging
+
+Log important events.
+
+```text
+User Login
+
+Interview Scheduled
+
+Interview Cancelled
+
+Feedback Submitted
+```
+
+---
+
+# Notifications
+
+Business events
+
+```text
+Interview Scheduled
+
+↓
+
+Email Candidate
+
+↓
+
+Notify Interviewer
+
+↓
+
+Calendar Invite
+```
+
+Not immediate implementation.
+
+Just design.
+
+---
+
+# Scaling Questions
+
+Eventually ask:
+
+"What if there are 1 million interviews?"
+
+Now topics like:
+
+* Pagination
+* Filtering
+* Sorting
+* Indexes
+* Queues
+* Caching
+
+make sense.
+
+---
+
+# The Design Process I Follow
+
+Whenever I start a new backend, I use this checklist:
+
+```text
+1. Identify users
+2. Identify roles
+3. Identify entities
+4. Design relationships
+5. Design collections
+6. List features
+7. Design APIs
+8. Define business rules
+9. Identify validations
+10. Think about edge cases
+11. Decide authorization rules
+12. Think about scaling
+```
+
+I don't write a single line of code until I can answer those questions.
+
+---
+
+# What We'll Build Together
+
+Instead of building another "User CRUD" project, I'd like us to build something that resembles a real production system.
+
+Given your recent work, **an Interview Scheduler** is a great choice because it naturally includes:
+
+* Authentication & Authorization
+* CRUD operations
+* Relationships (`populate`)
+* Pagination, filtering, sorting
+* File uploads (resumes)
+* Email notifications
+* Scheduling logic
+* Validation
+* Logging
+* Audit history
+* Dashboard statistics
+* Search
+* Status workflows
+
+It touches almost every important backend concept you've learned, making it an excellent capstone project.
+
+## My teaching plan
+
+We'll do this in phases:
+
+1. **Requirements analysis** (no code)
+2. **Database design (ERD)**
+3. **API design**
+4. **Folder architecture**
+5. **Implementation model by model**
+6. **Advanced features (notifications, reports, etc.)**
+
+This mirrors how backend projects are typically planned and developed in professional teams, where design decisions come before implementation.
