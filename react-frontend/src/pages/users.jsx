@@ -10,8 +10,8 @@ import api from "../api/axios";
 
 const columnHelper = createColumnHelper();
 
-function Candidates() {
-    const [candidates, setCandidates] = useState([]);
+function Users() {
+    const [users, setCandidates] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
     const [totalCandidates, setTotalCandidates] = useState(0);
@@ -36,7 +36,7 @@ function Candidates() {
         return () => clearTimeout(timer);
     }, [searchInput]);
 
-    // Fetch candidates from backend API
+    // Fetch users from backend API
     const fetchCandidates = useCallback(async () => {
         setLoading(true);
         setError("");
@@ -56,7 +56,7 @@ function Candidates() {
                 params.sortOrder = sorting[0].desc ? "desc" : "asc";
             }
 
-            const response = await api.get("/candidate/getall", { params });
+            const response = await api.get("/users/all", { params });
             const result = response.data;
 
             if (result && Array.isArray(result.data)) {
@@ -73,10 +73,10 @@ function Candidates() {
                 setPageCount(1);
             }
         } catch (err) {
-            console.error("Failed to fetch candidates:", err);
+            console.error("Failed to fetch users:", err);
             setError(
                 err.response?.data?.message ||
-                "Failed to fetch candidates. Please check your network connection and login status."
+                "Failed to fetch users. Please check your network connection and login status."
             );
         } finally {
             setLoading(false);
@@ -91,75 +91,38 @@ function Candidates() {
     const columns = useMemo(
         () => [
             columnHelper.accessor("name", {
-                header: "Candidate Name",
+                header: "User Name",
                 cell: (info) => {
-                    const candidate = info.row.original;
+                    const user = info.row.original;
                     return (
                         <div className="flex items-center gap-3">
                             <div className="w-9 h-9 rounded-full bg-indigo-100 text-indigo-700 flex items-center justify-center font-bold text-sm">
-                                {candidate.name ? candidate.name.charAt(0).toUpperCase() : "C"}
+                                {user.name ? user.name.charAt(0).toUpperCase() : "C"}
                             </div>
                             <div>
-                                <div className="font-semibold text-gray-900">{candidate.name || "N/A"}</div>
-                                <div className="text-xs text-gray-500">{candidate.email}</div>
+                                <div className="font-semibold text-gray-900">{user.name || "N/A"}</div>
+                                <div className="text-xs text-gray-500">{user.email}</div>
                             </div>
                         </div>
                     );
                 },
             }),
-            columnHelper.accessor("phone", {
-                header: "Phone",
-                cell: (info) => info.getValue() || "N/A",
-            }),
-            columnHelper.accessor("currentDesination", {
-                id: "currentDesination",
+            columnHelper.accessor("role", {
+                id: "role",
                 header: "Current Role",
                 cell: (info) => {
-                    const candidate = info.row.original;
-                    const designation = candidate.currentDesination || candidate.currentDesignation;
-                    const company = candidate.currentCompany;
+                    const user = info.row.original;
+                    const designation = user.role || user.role;
                     return (
-                        <div>
-                            <div className="text-gray-900 font-medium">{designation || "N/A"}</div>
-                            {company && <div className="text-xs text-gray-500">at {company}</div>}
-                        </div>
+                        <div className="text-gray-900 font-medium">{designation || "N/A"}</div>
                     );
                 },
             }),
-            columnHelper.accessor("experience", {
-                header: "Experience",
+            columnHelper.accessor("age", {
+                header: "Age",
                 cell: (info) => {
                     const exp = info.getValue();
                     return exp !== undefined && exp !== null ? `${exp} yrs` : "0 yrs";
-                },
-            }),
-            columnHelper.accessor("skills", {
-                header: "Skills",
-                enableSorting: false,
-                cell: (info) => {
-                    const skills = info.getValue();
-                    if (!skills || !Array.isArray(skills) || skills.length === 0) {
-                        return <span className="text-xs text-gray-400">No skills listed</span>;
-                    }
-                    const visibleSkills = skills.slice(0, 3);
-                    const remainingCount = skills.length - 3;
-                    return (
-                        <div className="flex flex-wrap gap-1">
-                            {visibleSkills.map((skill, index) => (
-                                <span
-                                    key={index}
-                                    className="px-2 py-0.5 text-xs rounded-md bg-blue-50 text-blue-700 border border-blue-100 font-medium"
-                                >
-                                    {skill}
-                                </span>
-                            ))}
-                            {remainingCount > 0 && (
-                                <span className="px-1.5 py-0.5 text-xs rounded-md bg-gray-100 text-gray-600 font-medium">
-                                    +{remainingCount}
-                                </span>
-                            )}
-                        </div>
-                    );
                 },
             }),
             columnHelper.accessor("status", {
@@ -197,7 +160,7 @@ function Candidates() {
 
     // Initialize TanStack React Table instance
     const table = useReactTable({
-        data: candidates,
+        data: users,
         columns,
         pageCount: pageCount,
         state: {
@@ -219,8 +182,8 @@ function Candidates() {
 
     return (
         <DashboardLayout
-            title="Candidates"
-            description="Manage candidate profiles and track application statuses"
+            title="Users"
+            description="Manage user profiles and track application statuses"
         >
 
             <div className="space-y-4">
@@ -342,16 +305,16 @@ function Candidates() {
                                             <td className="px-6 py-4"><div className="h-4 bg-gray-200 rounded w-20" /></td>
                                         </tr>
                                     ))
-                                ) : candidates.length === 0 ? (
+                                ) : users.length === 0 ? (
                                     <tr>
                                         <td colSpan={columns.length} className="px-6 py-12 text-center text-gray-500">
                                             <div className="max-w-xs mx-auto space-y-2">
                                                 <svg className="w-10 h-10 mx-auto text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
                                                 </svg>
-                                                <p className="font-semibold text-gray-700">No candidates found</p>
+                                                <p className="font-semibold text-gray-700">No users found</p>
                                                 <p className="text-xs text-gray-400">
-                                                    {searchQuery ? `No results matching "${searchQuery}"` : "There are currently no candidates stored in the system."}
+                                                    {searchQuery ? `No results matching "${searchQuery}"` : "There are currently no users stored in the system."}
                                                 </p>
                                             </div>
                                         </td>
@@ -395,17 +358,17 @@ function Candidates() {
 
                         <div className="flex items-center gap-1.5">
                             <div className="text-sm text-gray-600">
-                                {totalCandidates > 0 ? (
+                            {totalCandidates > 0 ? (
                                     <span>
                                         Showing <span className="font-semibold text-gray-900">{startRowIndex}</span> to{" "}
                                         <span className="font-semibold text-gray-900">{endRowIndex}</span> of{" "}
-                                        <span className="font-semibold text-gray-900">{totalCandidates}</span> candidates
+                                        <span className="font-semibold text-gray-900">{totalCandidates}</span> users
                                     </span>
                                 ) : (
-                                    <span>0 candidates</span>
+                                    <span>0 users</span>
                                 )}
                             </div>
-
+                            
                             <button
                                 onClick={() => table.setPageIndex(0)}
                                 disabled={!table.getCanPreviousPage() || loading}
@@ -449,4 +412,4 @@ function Candidates() {
     );
 }
 
-export default Candidates;
+export default Users;

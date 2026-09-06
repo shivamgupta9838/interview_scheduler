@@ -1,3 +1,5 @@
+const logger = require("../../logger");
+
 const buildSort = (sortBy, sortOrder = "asc") => {
     if (!sortBy) {
         return {
@@ -25,7 +27,77 @@ const buildSearchFilter = (search, fields = []) => {
     };
 };
 
+const getPagination = (query) => {
+    let page = parseInt(query.page, 10);
+    let pageSize = parseInt(query.pageSize, 10);
+
+    page = Number.isInteger(page) && page > 0 ? page : 1;
+
+    pageSize =
+        Number.isInteger(pageSize) && pageSize > 0
+            ? Math.min(pageSize, 100)
+            : 10;
+
+    return {
+        page,
+        pageSize,
+        skip: (page - 1) * pageSize,
+    };
+};
+
+
+const getDatatableFilters = async ({
+    model,
+    query,
+    searchFields = [],
+    filter = {},
+}) => {
+    const {
+        page,
+        pageSize,
+        skip,
+    } = getPagination(query);
+
+    const {
+        search = "",
+        sortBy,
+        sortOrder,
+    } = query;
+
+    const searchFilter = buildSearchFilter(
+        search,
+        searchFields
+    );
+
+    const finalFilter = {
+        ...filter,
+        ...searchFilter,
+    };
+
+    const sort = buildSort(sortBy, sortOrder);
+
+    const [data, total] = await Promise.all([
+        model
+            .find(finalFilter)
+            .sort(sort)
+            .skip(skip)
+            .limit(pageSize)
+            .lean(),
+
+        model.countDocuments(finalFilter),
+    ]);
+
+    return {
+        data,
+        pagination: {
+            page,
+            pageSize,
+            total,
+            totalPages: Math.ceil(total / pageSize),
+        },
+    };
+};
+
 module.exports = {
-    buildSort,
-    buildSearchFilter,
+    getDatatableFilters,
 };

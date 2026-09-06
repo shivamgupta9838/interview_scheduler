@@ -5,6 +5,7 @@ import { BrowserRouter,Routes,Route } from 'react-router-dom'
 import RecruiterDashboard from './pages/RecruiterDashboard'
 import Register from './pages/Register'
 import Candidates from './pages/Candidates'
+import Users from './pages/users'
 
 function App() {
   return (
@@ -21,6 +22,11 @@ function App() {
           <Route 
             path='/account/candidates' 
             element={<Candidates/>}
+          />
+
+          <Route 
+            path='/account/users' 
+            element={<Users/>}
           />
 
           <Route 

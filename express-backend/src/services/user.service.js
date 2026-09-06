@@ -6,12 +6,20 @@ const logger = require("../logger");
 const refreshTokenService = require("./refreshToken.service");
 const permissions = require("../auth/permissions");
 const { getUserReadScope } = require("../auth/scope");
+const { getDatatableFilters } = require("../shared/utils/datatable");
 
-async function getallusers(user){
-    const filter = await getUserReadScope(user);
-    logger.info(filter);
+async function getallusers(query, user){
+    const scope = getUserReadScope(user);
 
-    return userModel.find(filter);
+    return getDatatableFilters({
+        model: userModel,
+        query,
+        searchFields: [
+            "name",
+            "email",
+        ],
+        filter: scope
+    });
 }
 
 async function getUser(id){

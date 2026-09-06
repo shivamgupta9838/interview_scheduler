@@ -42,7 +42,7 @@ function getJobReadScope(user) {
 }
 
 
-function getCand_idateReadScope(user) {
+function getCandidateReadScope(user) {
     switch (user.role) {
         case "admin":
             return {};
@@ -130,7 +130,7 @@ function getOfferReadScope(user) {
 module.exports = {
     getUserReadScope,
     getJobReadScope,
-    getCand_idateReadScope,
+    getCandidateReadScope,
     getApplicationReadScope,
     getInterviewReadScope,
     getFeedbackReadScope,

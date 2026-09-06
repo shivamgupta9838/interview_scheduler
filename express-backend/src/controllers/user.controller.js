@@ -5,7 +5,7 @@ const jwt= require("jsonwebtoken");
 const ApiError = require("../../shared/errors/apiError");
 
 async function getAllUser(req,res){
-    const users= await userService.getallusers(req.user);
+    const users= await userService.getallusers(req.query, req.user);
     res.json(users);
 }
 

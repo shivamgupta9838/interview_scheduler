@@ -22,7 +22,7 @@ async function updateCandidate(req,res){
 }
 
 async function getallcandidates(req,res){
-    const candidates= await candidateService.getallcandidates(req.query);
+    const candidates= await candidateService.getallcandidates(req.query, req.user);
 
     res.json(candidates);
 }

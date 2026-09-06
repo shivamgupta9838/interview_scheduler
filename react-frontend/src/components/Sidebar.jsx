@@ -15,6 +15,12 @@ function Sidebar() {
             path: "/account/dashboard",
         },
         {
+            name: "Users",
+            icon: "👥",
+            permission: "User.read",
+            path: "/account/users",
+        },
+        {
             name: "Jobs",
             icon: "💼",
             permission: "Job.read",
@@ -46,7 +52,7 @@ function Sidebar() {
 
     function handleLogout() {
         logout();
-        navigate("/login", { replace: true });
+        navigate("/", { replace: true });
     }
 
     return (
