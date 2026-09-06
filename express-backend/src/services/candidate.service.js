@@ -4,6 +4,15 @@ const logger = require("../logger");
 const candidateModel= require("../models/candidate.model");
 const bcrypt= require("bcrypt");
 
+const {
+    getPagination,
+} = require("../shared/utils/pagination");
+
+const {
+    buildSort,
+    buildSearchFilter,
+} = require("../shared/utils/dataTable");
+
 async function createCandidate(body){
     return candidateModel.create(body);
 }
@@ -12,8 +21,47 @@ async function updateCandidate(id,body){
     return candidateModel.findByIdAndUpdate(id,body,{returnDocument: "after"});
 }
 
-async function getallcandidates(){
-    return candidateModel.find();
+async function getallcandidates(query){
+    const {
+        page,
+        pageSize,
+        skip,
+    } = getPagination(query);
+
+    const {
+        search = "",
+        sortBy,
+        sortOrder,
+    } = query;
+
+    const filter = buildSearchFilter(search, [
+        "name",
+        "email",
+        'phone'
+    ]);
+
+    const sort = buildSort(sortBy, sortOrder);
+
+    const [data, total] = await Promise.all([
+        candidateModel
+            .find(filter)
+            .sort(sort)
+            .skip(skip)
+            .limit(pageSize)
+            .lean(),
+
+        candidateModel.countDocuments(filter),
+    ]);
+
+    return {
+        data,
+        pagination: {
+            page,
+            pageSize,
+            total,
+            totalPages: Math.ceil(total / pageSize),
+        },
+    };
 }
 
 async function getcandidate(id){

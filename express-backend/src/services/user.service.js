@@ -4,14 +4,14 @@ const jwt = require("jsonwebtoken");
 const bcrypt= require("bcrypt");
 const logger = require("../logger");
 const refreshTokenService = require("./refreshToken.service");
+const permissions = require("../auth/permissions");
+const { getUserReadScope } = require("../auth/scope");
 
-async function getallusers(query = {}){
-    const page= Number(query.page) || 1;
-    const limit= Number(query.limit) || 5;
-    const sort= query.sort || "role";
-    const skip= (page-1) * limit;
+async function getallusers(user){
+    const filter = await getUserReadScope(user);
+    logger.info(filter);
 
-    return userModel.find(query).sort({[sort]:1}).skip(skip).limit(limit);
+    return userModel.find(filter);
 }
 
 async function getUser(id){
@@ -61,22 +61,32 @@ async function loginUser(data){
         // }
     );
 
-    const refreshToken = jwt.sign(
-        {
-            id: user._id
-        },
-        process.env.JWT_REFRESH_SECRET,
-        {
-            expiresIn: "30d"
+    // const refreshToken = jwt.sign(
+    //     {
+    //         id: user._id
+    //     },
+    //     process.env.JWT_REFRESH_SECRET,
+    //     {
+    //         expiresIn: "30d"
+    //     }
+    // );
+
+    // await refreshTokenService.createRefreshToken(
+    //     user._id,
+    //     refreshToken
+    // );
+
+    return {
+        accessToken, 
+        // refreshToken,
+        user: {
+            id: user._id,
+            name: user.name,
+            email: user.email,
+            role: user.role,
+            permissions: permissions[user.role] || []
         }
-    );
-
-    await refreshTokenService.createRefreshToken(
-        user._id,
-        refreshToken
-    );
-
-    return {accessToken, refreshToken};
+    };
 }
 
 module.exports={

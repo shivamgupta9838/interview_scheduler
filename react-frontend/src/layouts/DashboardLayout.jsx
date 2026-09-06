@@ -5,7 +5,7 @@ import { Navigate } from "react-router-dom";
 function DashboardLayout({ children }) {
     const token = localStorage.getItem("accessToken");
 
-    if (!token) {
+    if (!token || token === "undefined" || token === "null") {
         return <Navigate to="/login" replace />;
     }
 

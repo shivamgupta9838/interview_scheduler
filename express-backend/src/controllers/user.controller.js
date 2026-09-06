@@ -5,7 +5,7 @@ const jwt= require("jsonwebtoken");
 const ApiError = require("../../shared/errors/apiError");
 
 async function getAllUser(req,res){
-    const users= await userService.getallusers(req.query);
+    const users= await userService.getallusers(req.user);
     res.json(users);
 }
 
@@ -52,12 +52,13 @@ async function deleteuser(req,res){
 }
 
 async function loginUser(req,res){
-    const { accessToken, refreshToken } = await userService.loginUser(req.body);
+    const { accessToken, refreshToken, user } = await userService.loginUser(req.body);
 
     res.status(200).json({
         status: true,
-        accessToken: accessToken,
-        refreshToken: refreshToken
+        accessToken,
+        // refreshToken,
+        user
     });
 }
 

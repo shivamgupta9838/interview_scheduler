@@ -1,6 +1,7 @@
 import { useState } from "react";
 import api from "../api/axios";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../context/authContext";
 
 function Login() {
     const [formData, setFormData] = useState({
@@ -10,6 +11,7 @@ function Login() {
 
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
+    const { login } = useAuth();
 
     const navigate= useNavigate();
 
@@ -32,11 +34,11 @@ function Login() {
         try {
             const response = await api.post("/users/login", formData);
 
-            console.log("Login response:", response.data.accessToken);
-
             localStorage.setItem("accessToken", response.data.accessToken);
 
-            navigate("/recruiter/dashboard");
+            login(response.data.user);
+
+            navigate("/account/dashboard");
         } catch (error) {
             console.error(error);
 

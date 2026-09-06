@@ -1,30 +1,53 @@
-import { useState } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
+import { useAuth } from "../context/authContext";
 
 function Sidebar() {
-    const [activeMenu, setActiveMenu] = useState("Dashboard");
+    const location = useLocation();
+    const navigate = useNavigate();
+    const { user, logout } = useAuth();
+    
+    const permissions = user?.permissions || [];
 
     const menuItems = [
         {
             name: "Dashboard",
             icon: "▦",
+            path: "/account/dashboard",
         },
         {
             name: "Jobs",
             icon: "💼",
+            permission: "Job.read",
+            path: "/account/jobs",
         },
         {
             name: "Applications",
             icon: "📄",
+            permission: "Application.read",
+            path: "/account/applications",
         },
         {
             name: "Candidates",
             icon: "👥",
+            permission: "Candidate.read",
+            path: "/account/candidates",
         },
         {
             name: "Interviews",
             icon: "📅",
+            permission: "Interview.read",
+            path: "/account/interviews",
         },
     ];
+
+    const visibleMenuItems = menuItems.filter(
+        item => !item.permission || permissions.includes(item.permission)
+    );
+
+    function handleLogout() {
+        logout();
+        navigate("/login", { replace: true });
+    }
 
     return (
         <aside className="fixed left-0 top-0 flex h-screen w-64 flex-col border-r border-gray-200 bg-white">
@@ -45,12 +68,12 @@ function Sidebar() {
 
                 <div className="space-y-1">
 
-                    {menuItems.map((item) => (
+                    {visibleMenuItems.map((item) => (
                         <button
                             key={item.name}
-                            onClick={() => setActiveMenu(item.name)}
+                            onClick={() => navigate(item.path)}
                             className={`flex w-full items-center gap-3 rounded-lg px-3 py-3 text-sm font-medium transition ${
-                                activeMenu === item.name
+                                location.pathname  === item.path
                                     ? "bg-indigo-50 text-indigo-600"
                                     : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
                             }`}
@@ -77,7 +100,10 @@ function Sidebar() {
                     <span>Settings</span>
                 </button>
 
-                <button className="mt-1 flex w-full items-center gap-3 rounded-lg px-3 py-3 text-sm font-medium text-red-500 hover:bg-red-50">
+                <button
+                    onClick={handleLogout}
+                    className="mt-1 flex w-full items-center gap-3 rounded-lg px-3 py-3 text-sm font-medium text-red-500 hover:bg-red-50"
+                >
                     <span>↪</span>
                     <span>Logout</span>
                 </button>

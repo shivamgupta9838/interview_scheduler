@@ -33,7 +33,7 @@ function candidateAuthenticate(req, res, next) {
     next();
 }
 
-function authorized(action, resource) {
+function authorized(permission) {
     return (req, res, next) => {
         if (!req.user) {
             return next(
@@ -41,17 +41,11 @@ function authorized(action, resource) {
             );
         }
 
+        const [resource, action] = permission.split(".");
+
         const ability = defineAbilityFor(req.user);
 
-        const subject = resourceMap[resource];
-
-        if (!subject) {
-            return next(
-                new ApiError(500, `Unknown resource: ${resource}`)
-            );
-        }
-
-        if (ability.can(action, subject)) {
+        if (ability.can(action, resource)) {
             return next();
         }
 

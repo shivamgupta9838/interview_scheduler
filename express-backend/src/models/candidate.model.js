@@ -1,6 +1,5 @@
 const mongoose = require("mongoose");
 const logger = require("../logger");
-const { lowercase } = require("zod");
 const bcrypt= require("bcrypt");
 
 const candidateSchema= new mongoose.Schema({
@@ -53,8 +52,12 @@ const candidateSchema= new mongoose.Schema({
 }
 );
 
-candidateSchema.pre("save", async function (next){
-    this.password= await bcrypt.hash(this.password, 5);
+candidateSchema.pre("save", async function () {
+    if (!this.isModified("password")) {
+        return;
+    }
+
+    this.password = await bcrypt.hash(this.password, 5);
 });
 
 module.exports= mongoose.model(
