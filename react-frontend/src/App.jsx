@@ -10,32 +10,30 @@ import Users from './pages/users'
 function App() {
   return (
     <>
-      <BrowserRouter>
-        <Routes>
+      <Routes>
 
-          <Route path='/' element={<Home />}/>
+        <Route path='/' element={<Home />}/>
 
-          <Route path='/login' element={<Login/>} />
+        <Route path='/login' element={<Login/>} />
 
-          <Route path='/register' element={<Register/>} />
+        <Route path='/register' element={<Register/>} />
 
-          <Route 
-            path='/account/candidates' 
-            element={<Candidates/>}
-          />
+        <Route 
+          path='/account/candidates' 
+          element={<Candidates/>}
+        />
 
-          <Route 
-            path='/account/users' 
-            element={<Users/>}
-          />
+        <Route 
+          path='/account/users' 
+          element={<Users/>}
+        />
 
-          <Route 
-            path='/account/dashboard'
-            element={<RecruiterDashboard/>}
-          />
+        <Route 
+          path='/account/dashboard'
+          element={<RecruiterDashboard/>}
+        />
 
-        </Routes>
-      </BrowserRouter>
+      </Routes>
     </>
   )
 }

@@ -1,8 +1,11 @@
 import { createContext, useContext, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const AuthContext = createContext(null);
 
 export function AuthProvider({ children }) {
+    const navigate = useNavigate();
+
     const [user, setUser] = useState(() => {
         const storedUser = localStorage.getItem("user");
 
@@ -18,6 +21,7 @@ export function AuthProvider({ children }) {
         setUser(null);
         localStorage.removeItem("user");
         localStorage.removeItem("accessToken");
+        navigate("/", { replace: true });
     }
 
     return (

@@ -50,11 +50,6 @@ function Sidebar() {
         item => !item.permission || permissions.includes(item.permission)
     );
 
-    function handleLogout() {
-        logout();
-        navigate("/", { replace: true });
-    }
-
     return (
         <aside className="fixed left-0 top-0 flex h-screen w-64 flex-col border-r border-gray-200 bg-white">
 
@@ -107,7 +102,7 @@ function Sidebar() {
                 </button>
 
                 <button
-                    onClick={handleLogout}
+                    onClick={logout}
                     className="mt-1 flex w-full items-center gap-3 rounded-lg px-3 py-3 text-sm font-medium text-red-500 hover:bg-red-50"
                 >
                     <span>↪</span>
