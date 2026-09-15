@@ -1,11 +1,14 @@
-import DashboardLayout from "../layouts/DashboardLayout";
+import DashboardLayout from "../../layouts/DashboardLayout";
+import { useAuth } from "../../context/authContext";
 
-function RecruiterDashboard() {
+function UserDashboard() {
+    const { user } = useAuth();
+    
     return (
         <DashboardLayout>
 
             <h1 className="text-2xl font-bold text-gray-900">
-                Recruiter Dashboard
+                {user.role} Dashboard
             </h1>
 
             <p className="mt-2 text-gray-500">
@@ -16,4 +19,4 @@ function RecruiterDashboard() {
     );
 }
 
-export default RecruiterDashboard;
+export default UserDashboard;

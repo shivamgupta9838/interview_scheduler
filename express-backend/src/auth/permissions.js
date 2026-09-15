@@ -58,6 +58,7 @@ const permissions = {
 
         "Application.read",
         "Application.update",
+        "Application.changeStage",
 
         "Interview.read",
         "Interview.create",

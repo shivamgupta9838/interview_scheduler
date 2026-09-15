@@ -51,6 +51,7 @@ const getDatatableFilters = async ({
     query,
     searchFields = [],
     filter = {},
+    populate = [],
 }) => {
     const {
         page,
@@ -76,14 +77,18 @@ const getDatatableFilters = async ({
 
     const sort = buildSort(sortBy, sortOrder);
 
-    const [data, total] = await Promise.all([
-        model
-            .find(finalFilter)
-            .sort(sort)
-            .skip(skip)
-            .limit(pageSize)
-            .lean(),
+    const dataQuery = model
+        .find(finalFilter)
+        .sort(sort)
+        .skip(skip)
+        .limit(pageSize);
 
+    if (populate.length) {
+        dataQuery.populate(populate);
+    }
+
+    const [data, total] = await Promise.all([
+        dataQuery.lean(),
         model.countDocuments(finalFilter),
     ]);
 

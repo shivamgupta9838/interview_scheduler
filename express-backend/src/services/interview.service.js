@@ -1,10 +1,44 @@
 const ApiError = require("../../shared/errors/apiError");
+const { getInterviewReadScope } = require("../auth/scope");
 const logger = require("../logger");
 const applicationModel = require("../models/application.model");
 const interviewModel= require("../models/interview.model");
+const { getDatatableFilters } = require("../shared/utils/dataTable");
 
-async function getallinterview(){
-    return interviewModel.find();
+async function getallinterview(query,user){
+    const scope = await getInterviewReadScope(user);
+    logger.info(scope);
+
+    return getDatatableFilters({
+        model: interviewModel,
+        query,
+        searchFields: [
+            "name",
+            "email",
+            "phone",
+        ],
+        filter: scope,
+        populate: [
+            {
+                path: "application",
+                select: "candidate job source stage appliedAt",
+                populate: [
+                    {
+                        path: "candidate",
+                        select: "name email phone",
+                    },
+                    {
+                        path: "job",
+                        select: "title department location",
+                    },
+                ],
+            },
+            {
+                path: "interviewers",
+                select: "name email",
+            },
+        ],
+    });
 }
 
 async function createinterview(body){

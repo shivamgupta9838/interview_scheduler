@@ -30,8 +30,8 @@ async function updateJob(req,res){
 }
 
 async function getAll(req,res){
-    const jobs= await jobService.getAll();
-    return res.send(jobs);
+    const jobs= await jobService.getAll(req.query,req.user);
+    return res.json(jobs);
 }
 
 async function deletejob(req,res){

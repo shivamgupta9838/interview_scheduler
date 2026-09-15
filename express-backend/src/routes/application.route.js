@@ -8,7 +8,7 @@ const { authenticate, candidateAuthenticate, authorized } = require("../middlewa
 
 // Staff routes
 router.use(authenticate);
-router.get("/", authorized("Application.read"), applicationController.getAllApplication);
+router.get("/getall", authorized("Application.read"), applicationController.getAllApplication);
 router.post("/update/:id", authorized("Application.update"), applicationController.updateApplication);
 router.delete("/delete/:id", authorized("Application.delete"), applicationController.deleteApplication);
 router.patch("/action/:id", authorized("Application.changeStage"), applicationController.stageApplication);

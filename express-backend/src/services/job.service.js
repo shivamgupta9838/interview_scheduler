@@ -1,4 +1,7 @@
 const jobModel= require("../models/job.model");
+const { getJobReadScope } = require("../auth/scope");
+const { getDatatableFilters } = require("../shared/utils/dataTable");
+const logger = require("../logger");
 
 async function createjob(user){
 
@@ -14,8 +17,19 @@ async function updatejob(id,data){
     );
 }
 
-async function getAll(req,res){
-    return jobModel.find();
+async function getAll(query,user){
+    const scope = getJobReadScope(user);
+    
+    return getDatatableFilters({
+        model: jobModel,
+        query,
+        searchFields: [
+            "name",
+            "email",
+            "phone",
+        ],
+        filter: scope,
+    });
 }
 
 async function deletejob(id){

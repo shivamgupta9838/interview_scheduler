@@ -4,9 +4,32 @@ const applicationModel= require("../models/application.model");
 const jobModel = require("../models/job.model");
 const offerModel = require("../models/offer.model");
 
-async function getAllApplication(filters={}){
+const { getDatatableFilters } = require("../shared/utils/dataTable");
+const { getApplicationReadScope } = require("../auth/scope");
 
-    return applicationModel.find(filters);
+async function getAllApplication(query,user){
+    const scope = await getApplicationReadScope(user);
+
+    return getDatatableFilters({
+        model: applicationModel,
+        query,
+        searchFields: [
+            "name",
+            "email",
+            "phone",
+        ],
+        filter: scope,
+        populate: [
+            {
+                path: "candidate",
+                select: "name email phone",
+            },
+            {
+                path: "job",
+                select: "title",
+            },
+        ]
+    });
 }
 
 async function getApplication(id){

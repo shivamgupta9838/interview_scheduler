@@ -3,7 +3,7 @@ const logger = require("../logger");
 const applicationService= require("../services/application.service");
 
 async function getAllApplication(req,res){
-    const applications= await applicationService.getAllApplication(req.query);
+    const applications= await applicationService.getAllApplication(req.query,req.user);
 
     res.json(applications);
 }

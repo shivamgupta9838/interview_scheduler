@@ -6,6 +6,9 @@ const Interview = require("../models/interview.model");
 const Feedback = require("../models/feedback.model");
 const Offer = require("../models/offer.model");
 const logger = require("../logger");
+const jobModel = require("../models/job.model");
+const applicationModel = require("../models/application.model");
+const interviewModel = require("../models/interview.model");
 
 
 function getUserReadScope(user) {
@@ -26,12 +29,13 @@ function getUserReadScope(user) {
 
 
 function getJobReadScope(user) {
+    logger.info(user.id);
     switch (user.role) {
         case "admin":
             return {};
 
         case "recruiter":
-            return { recruiter_id: user._id };
+            return { createdBy : user.id };
 
         case "interviewer":
             return {};
@@ -59,13 +63,22 @@ function getCandidateReadScope(user) {
 }
 
 
-function getApplicationReadScope(user) {
+async function getApplicationReadScope(user) {
     switch (user.role) {
         case "admin":
             return {};
 
-        case "recruiter":
-            return { recruiter_id: user._id };
+        case "recruiter": {
+            const jobs = await jobModel.find({
+                createdBy: user.id
+            }).select("_id").lean();
+
+            const jobIds = jobs.map(job => job._id);
+
+            return {
+                job: { $in: jobIds }
+            };
+        }
 
         case "interviewer":
             return {};
@@ -76,13 +89,34 @@ function getApplicationReadScope(user) {
 }
 
 
-function getInterviewReadScope(user) {
+async function getInterviewReadScope(user) {
     switch (user.role) {
         case "admin":
             return {};
 
-        case "recruiter":
-            return { recruiter_id: user._id };
+        case "recruiter":{
+            const jobs = await jobModel.find({
+                createdBy: user.id
+            }).select("_id").lean();
+
+            const jobIds = jobs.map(job => job._id);
+
+            const applications = await applicationModel.find({
+                job: { $in: jobIds}
+            }).select("_id").lean();
+
+            const applicationIds = applications.map(application => application._id);
+
+            const interviews = await interviewModel.find({
+                application: { $in: applicationIds}
+            }).select("_id").lean();
+
+            const interviewIds = interviews.map(interview => interview._id);
+
+            return {
+                _id: { $in: interviewIds }
+            };
+        }
 
         case "interviewer":
             return { interviewer_id: user._id };

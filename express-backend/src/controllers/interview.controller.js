@@ -2,7 +2,7 @@ const ApiError = require("../../shared/errors/apiError");
 const interviewService= require("../services/interview.service");
 
 async function getallinterview(req,res){
-    const interviews= await interviewService.getallinterview();
+    const interviews= await interviewService.getallinterview(req.query,req.user);
 
     return res.json(interviews);
 }

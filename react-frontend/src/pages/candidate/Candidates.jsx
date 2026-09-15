@@ -5,8 +5,8 @@ import {
     flexRender,
     createColumnHelper,
 } from "@tanstack/react-table";
-import DashboardLayout from "../layouts/DashboardLayout";
-import api from "../api/axios";
+import DashboardLayout from "../../layouts/DashboardLayout";
+import api from "../../api/axios";
 
 const columnHelper = createColumnHelper();
 

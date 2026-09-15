@@ -5,13 +5,13 @@ import {
     flexRender,
     createColumnHelper,
 } from "@tanstack/react-table";
-import DashboardLayout from "../layouts/DashboardLayout";
-import api from "../api/axios";
+import DashboardLayout from "../../layouts/DashboardLayout";
+import api from "../../api/axios";
 
 const columnHelper = createColumnHelper();
 
-function Users() {
-    const [users, setCandidates] = useState([]);
+function Jobs() {
+    const [jobs, setCandidates] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
     const [totalCandidates, setTotalCandidates] = useState(0);
@@ -36,7 +36,7 @@ function Users() {
         return () => clearTimeout(timer);
     }, [searchInput]);
 
-    // Fetch users from backend API
+    // Fetch jobs from backend API
     const fetchCandidates = useCallback(async () => {
         setLoading(true);
         setError("");
@@ -56,7 +56,7 @@ function Users() {
                 params.sortOrder = sorting[0].desc ? "desc" : "asc";
             }
 
-            const response = await api.get("/users/all", { params });
+            const response = await api.get("/jobs/getall", { params });
             const result = response.data;
 
             if (result && Array.isArray(result.data)) {
@@ -73,10 +73,10 @@ function Users() {
                 setPageCount(1);
             }
         } catch (err) {
-            console.error("Failed to fetch users:", err);
+            console.error("Failed to fetch jobs:", err);
             setError(
                 err.response?.data?.message ||
-                "Failed to fetch users. Please check your network connection and login status."
+                "Failed to fetch jobs. Please check your network connection and login status."
             );
         } finally {
             setLoading(false);
@@ -90,39 +90,71 @@ function Users() {
     // Table Column Definitions
     const columns = useMemo(
         () => [
-            columnHelper.accessor("name", {
-                header: "User Name",
+            columnHelper.accessor("title", {
+                header: "Job Name",
                 cell: (info) => {
-                    const user = info.row.original;
+                    const job = info.row.original;
                     return (
                         <div className="flex items-center gap-3">
                             <div className="w-9 h-9 rounded-full bg-indigo-100 text-indigo-700 flex items-center justify-center font-bold text-sm">
-                                {user.name ? user.name.charAt(0).toUpperCase() : "C"}
+                                {job.title ? job.title.charAt(0).toUpperCase() : "C"}
                             </div>
                             <div>
-                                <div className="font-semibold text-gray-900">{user.name || "N/A"}</div>
-                                <div className="text-xs text-gray-500">{user.email}</div>
+                                <div className="font-semibold text-gray-900">{job.title || "N/A"}</div>
+                                <div className="text-xs text-gray-500">{job.employeeType}</div>
                             </div>
                         </div>
                     );
                 },
             }),
-            columnHelper.accessor("role", {
-                id: "role",
-                header: "Current Role",
-                cell: (info) => {
-                    const user = info.row.original;
-                    const designation = user.role || user.role;
-                    return (
-                        <div className="text-gray-900 font-medium">{designation || "N/A"}</div>
-                    );
-                },
+            columnHelper.accessor("department", {
+                header: "Department",
+                cell: (info) => info.getValue() || "N/A",
             }),
-            columnHelper.accessor("age", {
-                header: "Age",
+            columnHelper.accessor("location", {
+                header: "Location",
+                cell: (info) => info.getValue() || "N/A",
+            }),
+            columnHelper.accessor("experience", {
+                header: "Experience",
                 cell: (info) => {
                     const exp = info.getValue();
-                    return exp !== undefined && exp !== null ? `${exp} yrs` : "0 yrs";
+                    if (!exp) {
+                        return "0 yrs";
+                    }
+                    if (exp.min === exp.max) {
+                        return `${exp.min} yrs`;
+                    }
+                    return `${exp.min} - ${exp.max} yrs`;
+                },
+            }),
+            columnHelper.accessor("skills", {
+                header: "Skills",
+                enableSorting: false,
+                cell: (info) => {
+                    const skills = info.getValue();
+                    if (!skills || !Array.isArray(skills) || skills.length === 0) {
+                        return <span className="text-xs text-gray-400">No skills listed</span>;
+                    }
+                    const visibleSkills = skills.slice(0, 3);
+                    const remainingCount = skills.length - 3;
+                    return (
+                        <div className="flex flex-wrap gap-1">
+                            {visibleSkills.map((skill, index) => (
+                                <span
+                                    key={index}
+                                    className="px-2 py-0.5 text-xs rounded-md bg-blue-50 text-blue-700 border border-blue-100 font-medium"
+                                >
+                                    {skill}
+                                </span>
+                            ))}
+                            {remainingCount > 0 && (
+                                <span className="px-1.5 py-0.5 text-xs rounded-md bg-gray-100 text-gray-600 font-medium">
+                                    +{remainingCount}
+                                </span>
+                            )}
+                        </div>
+                    );
                 },
             }),
             columnHelper.accessor("status", {
@@ -143,7 +175,7 @@ function Users() {
                 },
             }),
             columnHelper.accessor("createdAt", {
-                header: "Applied On",
+                header: "Created On",
                 cell: (info) => {
                     const dateVal = info.getValue();
                     if (!dateVal) return "N/A";
@@ -160,7 +192,7 @@ function Users() {
 
     // Initialize TanStack React Table instance
     const table = useReactTable({
-        data: users,
+        data: jobs,
         columns,
         pageCount: pageCount,
         state: {
@@ -182,8 +214,8 @@ function Users() {
 
     return (
         <DashboardLayout
-            title="Users"
-            description="Manage user profiles and track application statuses"
+            title="Jobs"
+            description="Manage job profiles and track application statuses"
         >
 
             <div className="space-y-4">
@@ -305,16 +337,16 @@ function Users() {
                                             <td className="px-6 py-4"><div className="h-4 bg-gray-200 rounded w-20" /></td>
                                         </tr>
                                     ))
-                                ) : users.length === 0 ? (
+                                ) : jobs.length === 0 ? (
                                     <tr>
                                         <td colSpan={columns.length} className="px-6 py-12 text-center text-gray-500">
                                             <div className="max-w-xs mx-auto space-y-2">
                                                 <svg className="w-10 h-10 mx-auto text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
                                                 </svg>
-                                                <p className="font-semibold text-gray-700">No users found</p>
+                                                <p className="font-semibold text-gray-700">No jobs found</p>
                                                 <p className="text-xs text-gray-400">
-                                                    {searchQuery ? `No results matching "${searchQuery}"` : "There are currently no users stored in the system."}
+                                                    {searchQuery ? `No results matching "${searchQuery}"` : "There are currently no jobs stored in the system."}
                                                 </p>
                                             </div>
                                         </td>
@@ -358,17 +390,17 @@ function Users() {
 
                         <div className="flex items-center gap-1.5">
                             <div className="text-sm text-gray-600">
-                            {totalCandidates > 0 ? (
+                                {totalCandidates > 0 ? (
                                     <span>
                                         Showing <span className="font-semibold text-gray-900">{startRowIndex}</span> to{" "}
                                         <span className="font-semibold text-gray-900">{endRowIndex}</span> of{" "}
-                                        <span className="font-semibold text-gray-900">{totalCandidates}</span> users
+                                        <span className="font-semibold text-gray-900">{totalCandidates}</span> jobs
                                     </span>
                                 ) : (
-                                    <span>0 users</span>
+                                    <span>0 jobs</span>
                                 )}
                             </div>
-                            
+
                             <button
                                 onClick={() => table.setPageIndex(0)}
                                 disabled={!table.getCanPreviousPage() || loading}
@@ -412,4 +444,4 @@ function Users() {
     );
 }
 
-export default Users;
+export default Jobs;
