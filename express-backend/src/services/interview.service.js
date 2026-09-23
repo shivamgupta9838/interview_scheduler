@@ -7,7 +7,6 @@ const { getDatatableFilters } = require("../shared/utils/dataTable");
 
 async function getallinterview(query,user){
     const scope = await getInterviewReadScope(user);
-    logger.info(scope);
 
     return getDatatableFilters({
         model: interviewModel,
@@ -41,6 +40,32 @@ async function getallinterview(query,user){
     });
 }
 
+async function getInterview(params,user){
+    const scope = await getInterviewReadScope(user);
+
+    return await interviewModel.findById(params.id)
+        .populate([
+            {
+                path: "application",
+                select: "candidate job source stage appliedAt",
+                populate: [
+                    {
+                        path: "candidate",
+                        select: "name email phone",
+                    },
+                    {
+                        path: "job",
+                        select: "title department location",
+                    },
+                ],
+            },
+            {
+                path: "interviewers",
+                select: "name email",
+            },
+        ]);
+}
+
 async function createinterview(body){
 
     const application= await applicationModel.findById(body.application);
@@ -67,4 +92,4 @@ async function deleteinterview(id){
     return interviewModel.findByIdAndDelete(id);
 }
 
-module.exports= {getallinterview,createinterview,updateinterview,deleteinterview}
+module.exports= {getallinterview,createinterview,updateinterview,deleteinterview, getInterview}

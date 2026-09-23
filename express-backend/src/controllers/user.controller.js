@@ -9,6 +9,11 @@ async function getAllUser(req,res){
     res.json(users);
 }
 
+async function getApiUser(req,res){
+    const users= await userService.getApiUsers(req.query, req.user);
+    res.json(users);
+}
+
 async function getuser(req,res){
     const userID= req.user.id;
 
@@ -72,5 +77,5 @@ async function home(req,res){
 }
 
 module.exports ={
-    getAllUser,createuser,updateuser, deleteuser, loginUser, home, getuser
+    getAllUser,createuser,updateuser, deleteuser, loginUser, home, getuser, getApiUser
 }

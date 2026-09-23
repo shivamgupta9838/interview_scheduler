@@ -9,6 +9,7 @@ import Applications from './pages/application/applications'
 import Users from './pages/user/users'
 import Jobs from './pages/job/jobs'
 import Interviews from './pages/interview/interviews'
+import InterviewDetails from "./pages/interview/components/InterviewDetails";
 
 function App() {
   return (
@@ -32,6 +33,8 @@ function App() {
         <Route path='/account/dashboard' element={<UserDashboard/>} />
 
         <Route path='/account/interviews' element={<Interviews/>} />
+
+        <Route path="/account/interviews/:interviewId" element={<InterviewDetails />} />
 
       </Routes>
     </>

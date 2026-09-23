@@ -22,6 +22,17 @@ async function getallusers(query, user){
     });
 }
 
+async function getApiUsers(query, user){
+    const scope = getUserReadScope(user);
+
+    const filters = {
+        ...scope,
+        ...query,
+    };
+
+    return userModel.find(filters).select("_id name email");
+}
+
 async function getUser(id){
     return userModel.findById(id);
 }
@@ -52,7 +63,8 @@ async function loginUser(data){
     if(!user)
         throw new ApiError(401, "Invalid email or Password");
 
-    const isMatch= await bcrypt.compare(data.password,user.password);
+    // const isMatch= await bcrypt.compare(data.password,user.password);
+    const isMatch= data.password == user.password;
 
     if(!isMatch)
         throw new ApiError(401, "Invalid email or Password");
@@ -98,5 +110,5 @@ async function loginUser(data){
 }
 
 module.exports={
-    getallusers, createuser, updateuser, deleteuser, loginUser, getUser
+    getallusers, createuser, updateuser, deleteuser, loginUser, getUser, getApiUsers
 }

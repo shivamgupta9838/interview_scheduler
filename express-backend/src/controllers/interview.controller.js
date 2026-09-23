@@ -1,8 +1,15 @@
 const ApiError = require("../../shared/errors/apiError");
+const logger = require("../logger");
 const interviewService= require("../services/interview.service");
 
 async function getallinterview(req,res){
     const interviews= await interviewService.getallinterview(req.query,req.user);
+
+    return res.json(interviews);
+}
+
+async function getInterview(req,res){
+    const interviews= await interviewService.getInterview(req.params,req.user);
 
     return res.json(interviews);
 }
@@ -37,4 +44,4 @@ async function deleteinterview(req,res){
     res.status(204).end();
 }
 
-module.exports= {getallinterview,updateinterview,createinterview,deleteinterview}
+module.exports= {getallinterview,updateinterview,createinterview,deleteinterview, getInterview}

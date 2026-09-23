@@ -3,7 +3,7 @@ const logger = require("../logger");
 
 const router = express.Router();
 
-const { getAllUser, createuser, updateuser, deleteuser, loginUser, getuser } = require("../controllers/user.controller");
+const { getAllUser, createuser, updateuser, deleteuser, loginUser, getuser, getApiUser } = require("../controllers/user.controller");
 
 const createUserSchema = require("../validators/user.validator");
 const updateUserSchema = createUserSchema.partial();
@@ -25,6 +25,7 @@ router.get("", getuser);
 router.put("/update", validate(updateUserSchema), updateuser);
 
 router.get("/all", authorized("User.read"), getAllUser);
+router.get("/api/all", authorized("User.read"), getApiUser);
 router.delete("/:id", authorized("User.delete"), deleteuser);
 
 module.exports = router;

@@ -8,6 +8,7 @@ import {
 import DashboardLayout from "../../layouts/DashboardLayout";
 import api from "../../api/axios";
 import { Eye } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 const columnHelper = createColumnHelper();
 
@@ -26,6 +27,12 @@ function Interviews() {
     const [sorting, setSorting] = useState([]);
     const [searchInput, setSearchInput] = useState("");
     const [searchQuery, setSearchQuery] = useState("");
+
+    const navigate = useNavigate();
+
+    const handleView = (interview) => {
+        navigate(`/account/interviews/${interview._id}`);
+    };
 
     // Debounce search input
     useEffect(() => {
@@ -93,6 +100,21 @@ function Interviews() {
         () => [
             columnHelper.accessor("application.candidate.name", {
                 header: "Candidate",
+                cell: ({ row }) => {
+                    const candidate= row.original.application.candidate;
+
+                    return (
+                        <div className="flex items-center gap-3">
+                            <div className="w-9 h-9 rounded-full bg-indigo-100 text-indigo-700 flex items-center justify-center font-bold text-sm">
+                                {candidate.name ? candidate.name.charAt(0).toUpperCase() : "C"}
+                            </div>
+                            <div>
+                                <div className="font-semibold text-gray-900">{candidate.name || "N/A"}</div>
+                                <div className="text-xs text-gray-500">{candidate.email}</div>
+                            </div>
+                        </div>
+                    );
+                }
             }),
 
             columnHelper.accessor("application.job.title", {
@@ -124,11 +146,9 @@ function Interviews() {
                 id: "actions",
                 header: "Actions",
                 cell: ({ row }) => {
-                    const interview = row.original;
-
                     return (
                         <button
-                            onClick={() => handleView(interview)}
+                            onClick={() => handleView(row.original)}
                             className="p-2 rounded-md text-gray-500 hover:bg-gray-100 hover:text-blue-600"
                             title="View details"
                         >

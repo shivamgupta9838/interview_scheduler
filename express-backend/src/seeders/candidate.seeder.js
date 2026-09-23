@@ -92,4 +92,4 @@ const seedCandidates = async (count = 100) => {
     }
 };
 
-seedCandidates(1);
+seedCandidates(1000);

@@ -57,7 +57,7 @@ candidateSchema.pre("save", async function () {
         return;
     }
 
-    this.password = await bcrypt.hash(this.password, 5);
+    // this.password = await bcrypt.hash(this.password, 5);
 });
 
 module.exports= mongoose.model(

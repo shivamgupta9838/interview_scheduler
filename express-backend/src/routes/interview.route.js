@@ -6,8 +6,9 @@ const { authenticate, candidateAuthenticate, authorized } = require("../middlewa
 router.use(authenticate);
 // router.get("/approve/:id",)
 router.get("/getall",interviewcontroller.getallinterview);
+router.get("/:id",interviewcontroller.getInterview);
 router.post("/create",interviewcontroller.createinterview);
 router.post("/update/:id",interviewcontroller.updateinterview);
-router.delete("/delete/:id",interviewcontroller.deleteinterview);
+router.delete("/delete/:id", authorized("Interview.delete"),interviewcontroller.deleteinterview);
 
 module.exports= router;

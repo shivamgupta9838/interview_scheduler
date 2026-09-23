@@ -44,7 +44,8 @@ async function loginCandidate(data){
     if(!candidate)
         throw new ApiError(401,"Invalid email or password");
 
-    const isMatch= await bcrypt.compare(data.password, candidate.password);
+    // const isMatch= await bcrypt.compare(data.password, candidate.password);
+    const isMatch= data.password == candidate.password;
 
     if(!isMatch)
         throw new ApiError(401,"Invalid email or password");

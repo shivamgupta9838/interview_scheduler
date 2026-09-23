@@ -38,7 +38,8 @@ const seedUsers = async (count = 100) => {
     try {
         await connectDB();
 
-        const hashedPassword = await bcrypt.hash("123456", 5);
+        // const hashedPassword = await bcrypt.hash("123456", 5);
+        const hashedPassword = "123456";
 
         for (let i = 0; i < count; i++) {
             await createUser(hashedPassword);
