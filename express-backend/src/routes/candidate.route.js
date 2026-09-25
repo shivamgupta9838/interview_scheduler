@@ -10,11 +10,12 @@ router.post("/create", candidateController.createCandidate);
 router.post("/login", candidateController.loginCandidate);
 
 // Candidate routes
+router.post("/update/:id", candidateController.updateCandidateu);
 router.post("/update", candidateAuthenticate, candidateController.updateCandidate);
-router.get("", candidateAuthenticate, candidateController.getcandidate);
 
 // Staff routes
 router.get("/getall", authenticate, authorized("Candidate.read"), candidateController.getallcandidates);
+router.get("/:id", candidateAuthenticate, candidateController.getcandidate);
 router.delete("/delete/:id", authenticate, authorized("Candidate.delete"), candidateController.deleteCandidate);
 
 module.exports = router;

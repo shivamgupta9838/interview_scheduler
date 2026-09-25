@@ -1,17 +1,38 @@
 import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Moon, Sun } from "lucide-react";
 
 function Home() {
+    const [isDarkMode, setIsDarkMode] = useState(() => {
+        return localStorage.getItem("theme") === "dark" || (!("theme" in localStorage) && window.matchMedia("(prefers-color-scheme: dark)").matches);
+    });
+
+    useEffect(() => {
+        if (isDarkMode) {
+            document.documentElement.classList.add("dark");
+        } else {
+            document.documentElement.classList.remove("dark");
+        }
+    }, [isDarkMode]);
+
+    const toggleDarkMode = () => {
+        setIsDarkMode((prev) => {
+            const newMode = !prev;
+            localStorage.setItem("theme", newMode ? "dark" : "light");
+            return newMode;
+        });
+    };
     return (
-        <div className="min-h-screen bg-white">
+        <div className="min-h-screen bg-white dark:bg-gray-900 transition-colors">
 
             {/* Navbar */}
-            <nav className="border-b border-gray-200 bg-white">
+            <nav className="border-b border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 transition-colors">
                 <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-6">
 
                     {/* Logo */}
                     <Link
                         to="/"
-                        className="text-xl font-bold text-indigo-600"
+                        className="text-xl font-bold text-indigo-600 dark:text-indigo-400"
                     >
                         Interview Scheduler
                     </Link>
@@ -19,16 +40,24 @@ function Home() {
                     {/* Navigation */}
                     <div className="flex items-center gap-3">
 
+                        <button
+                            onClick={toggleDarkMode}
+                            className="rounded-full p-2 text-gray-500 transition-colors hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-800"
+                            title="Toggle Dark Mode"
+                        >
+                            {isDarkMode ? <Sun size={20} /> : <Moon size={20} />}
+                        </button>
+
                         <Link
                             to="/login"
-                            className="rounded-lg px-4 py-2 text-sm font-medium text-gray-700 transition hover:bg-gray-100"
+                            className="rounded-lg px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 transition hover:bg-gray-100 dark:hover:bg-gray-800"
                         >
                             Login
                         </Link>
 
                         <Link
                             to="/register"
-                            className="rounded-lg bg-indigo-600 px-4 py-2 text-sm font-medium text-white transition hover:bg-indigo-700"
+                            className="rounded-lg bg-indigo-600 px-4 py-2 text-sm font-medium text-white transition hover:bg-indigo-700 dark:hover:bg-indigo-400 dark:bg-indigo-500 dark:hover:bg-indigo-600"
                         >
                             Get Started
                         </Link>
@@ -39,24 +68,24 @@ function Home() {
 
 
             {/* Hero */}
-            <section className="bg-gray-50">
+            <section className="bg-gray-50 dark:bg-gray-900 transition-colors">
                 <div className="mx-auto grid min-h-150 max-w-7xl items-center gap-12 px-6 py-16 lg:grid-cols-2">
 
                     {/* Hero Content */}
                     <div>
 
-                        <span className="inline-block rounded-full bg-indigo-100 px-4 py-2 text-sm font-medium text-indigo-600">
+                        <span className="inline-block rounded-full bg-indigo-100 dark:bg-indigo-900/40 px-4 py-2 text-sm font-medium text-indigo-600 dark:text-indigo-400">
                             Smart Interview Management
                         </span>
 
-                        <h1 className="mt-6 text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl lg:text-6xl">
+                        <h1 className="mt-6 text-4xl font-bold tracking-tight text-gray-900 dark:text-white sm:text-5xl lg:text-6xl">
                             Schedule interviews.
-                            <span className="block text-indigo-600">
+                            <span className="block text-indigo-600 dark:text-indigo-400">
                                 Hire better.
                             </span>
                         </h1>
 
-                        <p className="mt-6 max-w-xl text-lg leading-8 text-gray-600">
+                        <p className="mt-6 max-w-xl text-lg leading-8 text-gray-600 dark:text-gray-400 transition-colors">
                             Interview Scheduler helps recruiters manage jobs,
                             candidates, interviews, feedback and hiring
                             decisions — all from one place.
@@ -67,14 +96,14 @@ function Home() {
 
                             <Link
                                 to="/register"
-                                className="rounded-lg bg-indigo-600 px-6 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-indigo-700"
+                                className="rounded-lg bg-indigo-600 px-6 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-indigo-700 dark:bg-indigo-500 dark:hover:bg-indigo-400"
                             >
                                 Get Started
                             </Link>
 
                             <Link
                                 to="/login"
-                                className="rounded-lg border border-gray-300 bg-white px-6 py-3 text-sm font-semibold text-gray-700 transition hover:bg-gray-50"
+                                className="rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 px-6 py-3 text-sm font-semibold text-gray-700 dark:text-gray-300 transition hover:bg-gray-50 dark:hover:bg-gray-700"
                             >
                                 Login
                             </Link>
@@ -87,15 +116,15 @@ function Home() {
                     {/* Dashboard Preview */}
                     <div className="hidden lg:block">
 
-                        <div className="rounded-2xl border border-gray-200 bg-white p-5 shadow-xl">
+                        <div className="rounded-2xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-800 p-5 shadow-xl transition-colors">
 
                             {/* Fake Browser Header */}
-                            <div className="mb-5 flex items-center gap-2 border-b border-gray-100 pb-4">
+                            <div className="mb-5 flex items-center gap-2 border-b border-gray-100 dark:border-gray-700 pb-4">
                                 <div className="h-3 w-3 rounded-full bg-red-400"></div>
                                 <div className="h-3 w-3 rounded-full bg-yellow-400"></div>
                                 <div className="h-3 w-3 rounded-full bg-green-400"></div>
 
-                                <div className="ml-3 h-7 flex-1 rounded-md bg-gray-100"></div>
+                                <div className="ml-3 h-7 flex-1 rounded-md bg-gray-100 dark:bg-gray-700"></div>
                             </div>
 
                             {/* Dashboard */}
@@ -104,29 +133,29 @@ function Home() {
                                 {/* Mini Sidebar */}
                                 <div className="w-32 space-y-3">
 
-                                    <div className="h-7 rounded-md bg-indigo-100"></div>
+                                    <div className="h-7 rounded-md bg-indigo-100 dark:bg-indigo-900/40 transition-colors"></div>
 
-                                    <div className="h-6 rounded-md bg-gray-100"></div>
-                                    <div className="h-6 rounded-md bg-gray-100"></div>
-                                    <div className="h-6 rounded-md bg-gray-100"></div>
-                                    <div className="h-6 rounded-md bg-gray-100"></div>
+                                    <div className="h-6 rounded-md bg-gray-100 dark:bg-gray-700 transition-colors"></div>
+                                    <div className="h-6 rounded-md bg-gray-100 dark:bg-gray-700 transition-colors"></div>
+                                    <div className="h-6 rounded-md bg-gray-100 dark:bg-gray-700 transition-colors"></div>
+                                    <div className="h-6 rounded-md bg-gray-100 dark:bg-gray-700 transition-colors"></div>
 
                                 </div>
 
                                 {/* Mini Content */}
                                 <div className="flex-1">
 
-                                    <div className="mb-4 h-7 w-40 rounded-md bg-gray-200"></div>
+                                    <div className="mb-4 h-7 w-40 rounded-md bg-gray-200 dark:bg-gray-700 transition-colors"></div>
 
                                     <div className="grid grid-cols-3 gap-3">
 
                                         <div className="h-20 rounded-lg bg-indigo-50"></div>
                                         <div className="h-20 rounded-lg bg-blue-50"></div>
-                                        <div className="h-20 rounded-lg bg-green-50"></div>
+                                        <div className="h-20 rounded-lg bg-green-50 dark:bg-green-900/20 transition-colors"></div>
 
                                     </div>
 
-                                    <div className="mt-4 h-40 rounded-lg bg-gray-50"></div>
+                                    <div className="mt-4 h-40 rounded-lg bg-gray-50 dark:bg-gray-900 transition-colors"></div>
 
                                 </div>
 
@@ -141,17 +170,17 @@ function Home() {
 
 
             {/* Features */}
-            <section className="bg-white py-20">
+            <section className="bg-white dark:bg-gray-900 py-20 transition-colors">
 
                 <div className="mx-auto max-w-7xl px-6">
 
                     <div className="mx-auto max-w-2xl text-center">
 
-                        <h2 className="text-3xl font-bold text-gray-900">
+                        <h2 className="text-3xl font-bold text-gray-900 dark:text-white">
                             Everything you need to manage interviews
                         </h2>
 
-                        <p className="mt-4 text-gray-600">
+                        <p className="mt-4 text-gray-600 dark:text-gray-400 transition-colors">
                             Keep your entire hiring workflow organized from
                             application to final decision.
                         </p>
@@ -205,7 +234,7 @@ function Home() {
 
 
             {/* CTA */}
-            <section className="bg-indigo-600">
+            <section className="bg-indigo-600 dark:bg-indigo-500 transition-colors">
 
                 <div className="mx-auto max-w-7xl px-6 py-16 text-center">
 
@@ -220,7 +249,7 @@ function Home() {
 
                     <Link
                         to="/register"
-                        className="mt-8 inline-block rounded-lg bg-white px-6 py-3 text-sm font-semibold text-indigo-600 shadow-sm transition hover:bg-gray-100"
+                        className="mt-8 inline-block rounded-lg bg-white dark:bg-gray-800 px-6 py-3 text-sm font-semibold text-indigo-600 dark:text-indigo-400 shadow-sm transition hover:bg-gray-100 dark:bg-gray-700"
                     >
                         Create Your Account
                     </Link>
@@ -231,11 +260,11 @@ function Home() {
 
 
             {/* Footer */}
-            <footer className="border-t border-gray-200 bg-white">
+            <footer className="border-t border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 transition-colors">
 
                 <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-6">
 
-                    <p className="text-sm text-gray-500">
+                    <p className="text-sm text-gray-500 dark:text-gray-400 transition-colors">
                         © 2026 Interview Scheduler
                     </p>
 
@@ -243,14 +272,14 @@ function Home() {
 
                         <Link
                             to="/login"
-                            className="text-sm text-gray-500 hover:text-gray-900"
+                            className="text-sm text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors"
                         >
                             Login
                         </Link>
 
                         <Link
                             to="/register"
-                            className="text-sm text-gray-500 hover:text-gray-900"
+                            className="text-sm text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors"
                         >
                             Register
                         </Link>
@@ -270,17 +299,17 @@ function Home() {
 
 function Feature({ icon, title, description }) {
     return (
-        <div className="rounded-xl border border-gray-200 bg-white p-6 transition hover:-translate-y-1 hover:shadow-lg">
+        <div className="rounded-xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-800 p-6 transition hover:-translate-y-1 hover:shadow-lg dark:hover:shadow-gray-900/50">
 
-            <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-indigo-50 text-2xl">
+            <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-indigo-50 dark:bg-indigo-900/40 text-2xl">
                 {icon}
             </div>
 
-            <h3 className="mt-5 text-lg font-semibold text-gray-900">
+            <h3 className="mt-5 text-lg font-semibold text-gray-900 dark:text-white">
                 {title}
             </h3>
 
-            <p className="mt-2 text-sm leading-6 text-gray-600">
+            <p className="mt-2 text-sm leading-6 text-gray-600 dark:text-gray-400 transition-colors">
                 {description}
             </p>
 

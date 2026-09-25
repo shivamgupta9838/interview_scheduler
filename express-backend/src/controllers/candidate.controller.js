@@ -11,6 +11,12 @@ async function createCandidate(req,res){
     });
 }
 
+async function updateCandidateu(req,res){
+    const candidate= await candidateService.updateCandidate(req.params.id,req.body);
+
+    res.json(candidate)
+}
+
 async function updateCandidate(req,res){
     const candidateID= req.candidate.id;
     const candidate= await candidateService.updateCandidate(candidateID,req.body);
@@ -28,11 +34,7 @@ async function getallcandidates(req,res){
 }
 
 async function getcandidate(req,res){
-    const candidateID= req.candidate.id;
-    const candidate= await candidateService.getcandidate(candidateID);
-
-    if(!candidate)
-        throw new ApiError(404, "Candidate not found");
+    const candidate= await candidateService.getcandidate(req.params,req.user);
 
     res.json(candidate);
 }
@@ -55,4 +57,4 @@ async function loginCandidate(req,res){
     });
 }
 
-module.exports= {getallcandidates, getcandidate,deleteCandidate,updateCandidate,createCandidate, loginCandidate};
+module.exports= {getallcandidates, getcandidate,deleteCandidate,updateCandidate, updateCandidateu,createCandidate, loginCandidate};

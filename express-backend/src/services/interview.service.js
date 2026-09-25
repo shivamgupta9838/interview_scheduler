@@ -12,9 +12,11 @@ async function getallinterview(query,user){
         model: interviewModel,
         query,
         searchFields: [
-            "name",
-            "email",
-            "phone",
+            "application.candidate.name",
+            "application.candidate.email",
+            "application.job.title",
+            "interviewers.name",
+            "interviewers.email"
         ],
         filter: scope,
         populate: [

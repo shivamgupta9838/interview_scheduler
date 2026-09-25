@@ -9,11 +9,8 @@ async function getAllApplication(req,res){
 }
 
 async function getApplication(req,res){
+
     const application = await applicationService.getApplication(req.params.id);
-
-    if(!application)
-        throw new ApiError(404,"Application not found");
-
     res.json(application);
 }
 

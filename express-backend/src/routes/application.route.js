@@ -15,11 +15,11 @@ router.patch("/action/:id", authorized("Application.changeStage"), applicationCo
 router.patch("/decision", authorized("Application.makeDecision"), applicationController.makeDecision);
 
 // Candidate routes
-candidateRouter.use(candidateAuthenticate);
+// candidateRouter.use(candidateAuthenticate);
 candidateRouter.get("/:id", applicationController.getApplication);
 candidateRouter.post("/create", applicationController.createApplication);
 candidateRouter.post("/update/:id", applicationController.updateApplication);
 
-router.use("/candidate", candidateRouter);
+router.use(candidateRouter);
 
 module.exports = router;

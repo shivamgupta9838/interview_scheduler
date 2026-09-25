@@ -33,7 +33,17 @@ async function getAllApplication(query,user){
 }
 
 async function getApplication(id){
-    return applicationModel.findById(id);
+    return applicationModel.findById(id)
+        .populate([
+            {
+                path: "candidate",
+                select: "name email phone",
+            },
+            {
+                path: "job",
+                select: "title",
+            },
+        ]);
 }
 
 async function createApplication(data){

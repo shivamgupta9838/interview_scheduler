@@ -12,6 +12,7 @@ async function createCandidate(body){
 }
 
 async function updateCandidate(id,body){
+    logger.info(body);
     return candidateModel.findByIdAndUpdate(id,body,{returnDocument: "after"});
 }
 
@@ -30,8 +31,10 @@ async function getallcandidates(query, user) {
     });
 }
 
-async function getcandidate(id){
-    return candidateModel.findById(id);
+async function getcandidate(params,user){
+    // const scope = await getCandidateReadScope(user);
+
+    return await candidateModel.findById(params.id);
 }
 
 async function deleteCandidate(id){

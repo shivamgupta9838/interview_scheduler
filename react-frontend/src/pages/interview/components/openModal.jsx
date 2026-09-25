@@ -119,17 +119,17 @@ const InterviewModal = ({
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 px-4">
 
-            <div className="w-full max-w-2xl rounded-lg bg-white shadow-xl">
+            <div className="w-full max-w-2xl rounded-lg bg-white dark:bg-gray-800 shadow-xl transition-colors">
 
                 {/* Header */}
                 <div className="flex items-center justify-between border-b px-6 py-4">
-                    <h2 className="text-lg font-semibold text-gray-900">
+                    <h2 className="text-lg font-semibold text-gray-900 dark:text-white transition-colors">
                         Interview Details
                     </h2>
 
                     <button
                         onClick={onClose}
-                        className="text-xl text-gray-500 hover:text-gray-700"
+                        className="text-xl text-gray-500 dark:text-gray-400 dark:text-gray-500 hover:text-gray-700 dark:text-gray-300 transition-colors"
                     >
                         ×
                     </button>
@@ -142,7 +142,7 @@ const InterviewModal = ({
 
                         {/* Application */}
                         <div className="sm:col-span-2">
-                            <label className="mb-1 block text-sm font-medium text-gray-700">
+                            <label className="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300 transition-colors">
                                 Application
                             </label>
 
@@ -154,12 +154,12 @@ const InterviewModal = ({
                                     ""
                                 }
                                 disabled
-                                className="w-full rounded-md border border-gray-300 bg-gray-100 px-3 py-2 text-gray-500"
+                                className="w-full rounded-md border border-gray-300 dark:border-gray-600 bg-gray-100 dark:bg-gray-700 px-3 py-2 text-gray-500 dark:text-gray-400 dark:text-gray-500 transition-colors"
                             />
                         </div>
 
                         <div className="md:col-span-2">
-                            <label className="mb-1 block text-sm font-medium text-gray-700">
+                            <label className="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300 transition-colors">
                                 Interviewers
                             </label>
 
@@ -180,14 +180,14 @@ const InterviewModal = ({
                                 placeholder="Select interviewers..."
                                 isSearchable
                             />
-                            <p className="mt-1 text-xs text-gray-500">
+                            <p className="mt-1 text-xs text-gray-500 dark:text-gray-400 dark:text-gray-500 transition-colors">
                                 Hold Ctrl/Cmd to select multiple interviewers.
                             </p>
                         </div>
 
                         {/* Round */}
                         <div>
-                            <label className="mb-1 block text-sm font-medium text-gray-700">
+                            <label className="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300 transition-colors">
                                 Round
                             </label>
 
@@ -198,13 +198,13 @@ const InterviewModal = ({
                                 value={formData.round}
                                 onChange={handleChange}
                                 disabled={!canUpdate}
-                                className="w-full rounded-md border border-gray-300 px-3 py-2 disabled:bg-gray-100"
+                                className="w-full rounded-md border border-gray-300 dark:border-gray-600 px-3 py-2 disabled:bg-gray-100 dark:bg-gray-700 transition-colors"
                             />
                         </div>
 
                         {/* Interview Type */}
                         <div>
-                            <label className="mb-1 block text-sm font-medium text-gray-700">
+                            <label className="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300 transition-colors">
                                 Interview Type
                             </label>
 
@@ -213,7 +213,7 @@ const InterviewModal = ({
                                 value={formData.interviewType}
                                 onChange={handleChange}
                                 disabled={!canUpdate}
-                                className="w-full rounded-md border border-gray-300 px-3 py-2 disabled:bg-gray-100"
+                                className="w-full rounded-md border border-gray-300 dark:border-gray-600 px-3 py-2 disabled:bg-gray-100 dark:bg-gray-700 transition-colors"
                             >
                                 <option value="">
                                     Select type
@@ -235,7 +235,7 @@ const InterviewModal = ({
 
                         {/* Mode */}
                         <div>
-                            <label className="mb-1 block text-sm font-medium text-gray-700">
+                            <label className="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300 transition-colors">
                                 Mode
                             </label>
 
@@ -244,7 +244,7 @@ const InterviewModal = ({
                                 value={formData.mode}
                                 onChange={handleChange}
                                 disabled={!canUpdate}
-                                className="w-full rounded-md border border-gray-300 px-3 py-2 disabled:bg-gray-100"
+                                className="w-full rounded-md border border-gray-300 dark:border-gray-600 px-3 py-2 disabled:bg-gray-100 dark:bg-gray-700 transition-colors"
                             >
                                 <option value="Online">
                                     Online
@@ -257,7 +257,7 @@ const InterviewModal = ({
 
                         {/* Status */}
                         <div>
-                            <label className="mb-1 block text-sm font-medium text-gray-700">
+                            <label className="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300 transition-colors">
                                 Status
                             </label>
 
@@ -266,7 +266,7 @@ const InterviewModal = ({
                                 value={formData.status}
                                 onChange={handleChange}
                                 disabled={!canUpdate}
-                                className="w-full rounded-md border border-gray-300 px-3 py-2 disabled:bg-gray-100"
+                                className="w-full rounded-md border border-gray-300 dark:border-gray-600 px-3 py-2 disabled:bg-gray-100 dark:bg-gray-700 transition-colors"
                             >
                                 <option value="Scheduled">
                                     Scheduled
@@ -282,7 +282,7 @@ const InterviewModal = ({
 
                         {/* Start Time */}
                         <div>
-                            <label className="mb-1 block text-sm font-medium text-gray-700">
+                            <label className="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300 transition-colors">
                                 Start Time
                             </label>
 
@@ -292,13 +292,13 @@ const InterviewModal = ({
                                 value={formData.startTime}
                                 onChange={handleChange}
                                 disabled={!canUpdate}
-                                className="w-full rounded-md border border-gray-300 px-3 py-2 disabled:bg-gray-100"
+                                className="w-full rounded-md border border-gray-300 dark:border-gray-600 px-3 py-2 disabled:bg-gray-100 dark:bg-gray-700 transition-colors"
                             />
                         </div>
 
                         {/* End Time */}
                         <div>
-                            <label className="mb-1 block text-sm font-medium text-gray-700">
+                            <label className="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300 transition-colors">
                                 End Time
                             </label>
 
@@ -308,14 +308,14 @@ const InterviewModal = ({
                                 value={formData.endTime}
                                 onChange={handleChange}
                                 disabled={!canUpdate}
-                                className="w-full rounded-md border border-gray-300 px-3 py-2 disabled:bg-gray-100"
+                                className="w-full rounded-md border border-gray-300 dark:border-gray-600 px-3 py-2 disabled:bg-gray-100 dark:bg-gray-700 transition-colors"
                             />
                         </div>
 
                         {/* Meeting Link */}
                         {formData.mode === "Online" && (
                             <div className="sm:col-span-2">
-                                <label className="mb-1 block text-sm font-medium text-gray-700">
+                                <label className="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300 transition-colors">
                                     Meeting Link
                                 </label>
 
@@ -326,7 +326,7 @@ const InterviewModal = ({
                                     onChange={handleChange}
                                     disabled={!canUpdate}
                                     placeholder="https://..."
-                                    className="w-full rounded-md border border-gray-300 px-3 py-2 disabled:bg-gray-100"
+                                    className="w-full rounded-md border border-gray-300 dark:border-gray-600 px-3 py-2 disabled:bg-gray-100 dark:bg-gray-700 transition-colors"
                                 />
                             </div>
                         )}
@@ -334,7 +334,7 @@ const InterviewModal = ({
                         {/* Location */}
                         {formData.mode === "Offline" && (
                             <div className="sm:col-span-2">
-                                <label className="mb-1 block text-sm font-medium text-gray-700">
+                                <label className="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300 transition-colors">
                                     Location
                                 </label>
 
@@ -345,7 +345,7 @@ const InterviewModal = ({
                                     onChange={handleChange}
                                     disabled={!canUpdate}
                                     placeholder="Interview location"
-                                    className="w-full rounded-md border border-gray-300 px-3 py-2 disabled:bg-gray-100"
+                                    className="w-full rounded-md border border-gray-300 dark:border-gray-600 px-3 py-2 disabled:bg-gray-100 dark:bg-gray-700 transition-colors"
                                 />
                             </div>
                         )}
@@ -359,7 +359,7 @@ const InterviewModal = ({
                     {canDelete && (
                         <button
                             onClick={handleDelete}
-                            className="rounded-md bg-red-600 px-4 py-2 text-sm font-medium text-white hover:bg-red-700"
+                            className="rounded-md bg-red-600 dark:bg-red-500 px-4 py-2 text-sm font-medium text-white hover:bg-red-700 dark:hover:bg-red-400 transition-colors"
                         >
                             Delete
                         </button>
@@ -376,7 +376,7 @@ const InterviewModal = ({
 
                     <button
                         onClick={onClose}
-                        className="rounded-md bg-gray-200 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-300"
+                        className="rounded-md bg-gray-200 dark:bg-gray-700 px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
                     >
                         Close
                     </button>

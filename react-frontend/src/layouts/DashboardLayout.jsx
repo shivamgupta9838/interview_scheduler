@@ -10,7 +10,7 @@ function DashboardLayout({ children, title, description }) {
     }
 
     return (
-        <div className="min-h-screen bg-gray-50">
+        <div className="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-200">
             <Sidebar />
 
             <div className="ml-64">
@@ -19,7 +19,7 @@ function DashboardLayout({ children, title, description }) {
                     description={description}
                 />
 
-                <main className="p-4">
+                <main className="p-4 text-gray-900 dark:text-white dark:text-gray-100 transition-colors">
                     {children}
                 </main>
             </div>

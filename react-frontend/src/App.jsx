@@ -10,6 +10,11 @@ import Users from './pages/user/users'
 import Jobs from './pages/job/jobs'
 import Interviews from './pages/interview/interviews'
 import InterviewDetails from "./pages/interview/components/InterviewDetails";
+import ScheduleInterview from "./pages/interview/components/ScheduleInterview";
+import CandidateDetails from "./pages/candidate/components/CandidateDetails.jsx";
+import JobDetails from "./pages/job/components/JobDetails.jsx";
+import ApplicationDetails from "./pages/application/components/ApplicationDetails.jsx";
+import UserDetails from "./pages/user/components/UserDetails.jsx";
 
 function App() {
   return (
@@ -35,6 +40,15 @@ function App() {
         <Route path='/account/interviews' element={<Interviews/>} />
 
         <Route path="/account/interviews/:interviewId" element={<InterviewDetails />} />
+        <Route path="/account/interviews/schedule/:applicationId" element={<ScheduleInterview />} />
+
+        <Route path="/account/candidate/:candidateId" element={<CandidateDetails />} />
+
+        <Route path="/account/users/:userId" element={<UserDetails />} />
+
+        <Route path="/account/jobs/:jobId" element={<JobDetails />} />
+
+        <Route path="/account/applications/:applicationId" element={<ApplicationDetails />} />
 
       </Routes>
     </>

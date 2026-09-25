@@ -60,32 +60,32 @@ function Register() {
     };
 
     return (
-        <div className="min-h-screen bg-gray-100 px-4 py-10">
+        <div className="min-h-screen bg-gray-100 dark:bg-gray-700 px-4 py-10 transition-colors">
             <div className="mx-auto w-full max-w-lg">
 
-                <div className="rounded-2xl bg-white p-8 shadow-lg">
+                <div className="rounded-2xl bg-white dark:bg-gray-800 p-8 shadow-lg transition-colors">
 
                     {/* Header */}
                     <div className="mb-8 text-center">
-                        <h1 className="text-3xl font-bold text-gray-900">
+                        <h1 className="text-3xl font-bold text-gray-900 dark:text-white transition-colors">
                             Create Account
                         </h1>
 
-                        <p className="mt-2 text-sm text-gray-500">
+                        <p className="mt-2 text-sm text-gray-500 dark:text-gray-400 dark:text-gray-500 transition-colors">
                             Create your Interview Scheduler account
                         </p>
                     </div>
 
                     {/* Error */}
                     {error && (
-                        <div className="mb-5 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-600">
+                        <div className="mb-5 rounded-lg border border-red-200 bg-red-50 dark:bg-red-900/20 px-4 py-3 text-sm text-red-600 dark:text-red-500 transition-colors">
                             {error}
                         </div>
                     )}
 
                     {/* Success */}
                     {success && (
-                        <div className="mb-5 rounded-lg border border-green-200 bg-green-50 px-4 py-3 text-sm text-green-600">
+                        <div className="mb-5 rounded-lg border border-green-200 dark:border-green-800 bg-green-50 dark:bg-green-900/20 px-4 py-3 text-sm text-green-600 transition-colors">
                             {success}
                         </div>
                     )}
@@ -99,7 +99,7 @@ function Register() {
                         <div>
                             <label
                                 htmlFor="name"
-                                className="mb-2 block text-sm font-medium text-gray-700"
+                                className="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300 transition-colors"
                             >
                                 Name
                             </label>
@@ -112,7 +112,7 @@ function Register() {
                                 onChange={handleChange}
                                 placeholder="Enter your name"
                                 required
-                                className="w-full rounded-lg border border-gray-300 px-4 py-3 text-sm outline-none transition focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200"
+                                className="w-full rounded-lg border border-gray-300 dark:border-gray-600 px-4 py-3 text-sm outline-none transition focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200"
                             />
                         </div>
 
@@ -120,7 +120,7 @@ function Register() {
                         <div>
                             <label
                                 htmlFor="email"
-                                className="mb-2 block text-sm font-medium text-gray-700"
+                                className="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300 transition-colors"
                             >
                                 Email
                             </label>
@@ -133,7 +133,7 @@ function Register() {
                                 onChange={handleChange}
                                 placeholder="Enter your email"
                                 required
-                                className="w-full rounded-lg border border-gray-300 px-4 py-3 text-sm outline-none transition focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200"
+                                className="w-full rounded-lg border border-gray-300 dark:border-gray-600 px-4 py-3 text-sm outline-none transition focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200"
                             />
                         </div>
 
@@ -141,7 +141,7 @@ function Register() {
                         <div>
                             <label
                                 htmlFor="password"
-                                className="mb-2 block text-sm font-medium text-gray-700"
+                                className="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300 transition-colors"
                             >
                                 Password
                             </label>
@@ -154,7 +154,7 @@ function Register() {
                                 onChange={handleChange}
                                 placeholder="Enter your password"
                                 required
-                                className="w-full rounded-lg border border-gray-300 px-4 py-3 text-sm outline-none transition focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200"
+                                className="w-full rounded-lg border border-gray-300 dark:border-gray-600 px-4 py-3 text-sm outline-none transition focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200"
                             />
                         </div>
 
@@ -162,7 +162,7 @@ function Register() {
                         <div>
                             <label
                                 htmlFor="age"
-                                className="mb-2 block text-sm font-medium text-gray-700"
+                                className="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300 transition-colors"
                             >
                                 Age
                             </label>
@@ -175,7 +175,7 @@ function Register() {
                                 onChange={handleChange}
                                 placeholder="Enter your age"
                                 min="1"
-                                className="w-full rounded-lg border border-gray-300 px-4 py-3 text-sm outline-none transition focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200"
+                                className="w-full rounded-lg border border-gray-300 dark:border-gray-600 px-4 py-3 text-sm outline-none transition focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200"
                             />
                         </div>
 
@@ -183,7 +183,7 @@ function Register() {
                         <div>
                             <label
                                 htmlFor="role"
-                                className="mb-2 block text-sm font-medium text-gray-700"
+                                className="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300 transition-colors"
                             >
                                 Role
                             </label>
@@ -193,7 +193,7 @@ function Register() {
                                 name="role"
                                 value={formData.role}
                                 onChange={handleChange}
-                                className="w-full rounded-lg border border-gray-300 bg-white px-4 py-3 text-sm text-gray-900 outline-none transition focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200"
+                                className="w-full rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 px-4 py-3 text-sm text-gray-900 dark:text-white outline-none transition focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200"
                             >
                                 <option value="interviewer">
                                     Interviewer
@@ -213,7 +213,7 @@ function Register() {
                         <button
                             type="submit"
                             disabled={loading}
-                            className="w-full rounded-lg bg-indigo-600 py-3 text-sm font-semibold text-white transition hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-60"
+                            className="w-full rounded-lg bg-indigo-600 dark:bg-indigo-500 py-3 text-sm font-semibold text-white transition hover:bg-indigo-700 dark:hover:bg-indigo-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-60"
                         >
                             {loading ? "Creating account..." : "Create Account"}
                         </button>

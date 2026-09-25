@@ -99,7 +99,7 @@ const InterviewDetails = () => {
                 interview.status || "Scheduled",
         });
     }, [interview]);
-    console.log(formData);
+    
     /*
      * Fetch available interviewers
      */
@@ -149,7 +149,6 @@ const InterviewDetails = () => {
         const minutes = String(
             d.getMinutes()
         ).padStart(2, "0");
-qqqa
         return `${year}-${month}-${day}T${hours}:${minutes}`;
     };
 
@@ -310,7 +309,7 @@ qqqa
     if (!canView) {
         return (
             <div className="p-6">
-                <div className="rounded-lg border border-red-200 bg-red-50 p-4 text-red-700">
+                <div className="rounded-lg border border-red-200 bg-red-50 dark:bg-red-900/20 p-4 text-red-700 transition-colors">
                     You do not have permission to view
                     this interview.
                 </div>
@@ -324,7 +323,7 @@ qqqa
     if (loading) {
         return (
             <div className="flex min-h-100 items-center justify-center">
-                <div className="text-gray-500">
+                <div className="text-gray-500 dark:text-gray-400 dark:text-gray-500 transition-colors">
                     Loading interview...
                 </div>
             </div>
@@ -337,8 +336,8 @@ qqqa
     if (!interview) {
         return (
             <div className="p-6">
-                <div className="rounded-lg border border-gray-200 bg-white p-6">
-                    <p className="text-gray-600">
+                <div className="rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-6 transition-colors">
+                    <p className="text-gray-600 dark:text-gray-400 dark:text-gray-500 transition-colors">
                         Interview not found.
                     </p>
 
@@ -348,7 +347,7 @@ qqqa
                                 "/account/interviews"
                             )
                         }
-                        className="mt-4 rounded-md bg-gray-200 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-300"
+                        className="mt-4 rounded-md bg-gray-200 dark:bg-gray-700 px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
                     >
                         Back to Interviews
                     </button>
@@ -378,38 +377,38 @@ qqqa
                 {/* Header */}
                 <div className="mb-6 flex items-center justify-between">
                     <div>
-                        <h1 className="text-2xl font-semibold text-gray-900">
+                        <h1 className="text-2xl font-semibold text-gray-900 dark:text-white transition-colors">
                             Interview Details
                         </h1>
 
-                        <p className="mt-1 text-sm text-gray-500">
+                        <p className="mt-1 text-sm text-gray-500 dark:text-gray-400 dark:text-gray-500 transition-colors">
                             View and manage interview details.
                         </p>
                     </div>
 
                     <button
                         onClick={() => navigate(-1)}
-                        className="rounded-md bg-gray-200 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-300"
+                        className="rounded-md bg-gray-200 dark:bg-gray-700 px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
                     >
                         ← Back
                     </button>
                 </div>
 
                 {/* Main Card */}
-                <div className="rounded-lg bg-white shadow-sm">
+                <div className="rounded-lg bg-white dark:bg-gray-800 shadow-sm transition-colors">
                     {/* Candidate / Job Information */}
                     <div className="border-b px-6 py-5">
-                        <h2 className="mb-4 text-lg font-semibold text-gray-900">
+                        <h2 className="mb-4 text-lg font-semibold text-gray-900 dark:text-white transition-colors">
                             Application
                         </h2>
 
                         <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
                             <div>
-                                <p className="text-xs font-medium uppercase text-gray-500">
+                                <p className="text-xs font-medium uppercase text-gray-500 dark:text-gray-400 dark:text-gray-500 transition-colors">
                                     Candidate
                                 </p>
 
-                                <p className="mt-1 text-sm font-medium text-gray-900">
+                                <p className="mt-1 text-sm font-medium text-gray-900 dark:text-white transition-colors">
                                     {interview.application
                                         ?.candidate?.name ||
                                         "N/A"}
@@ -417,11 +416,11 @@ qqqa
                             </div>
 
                             <div>
-                                <p className="text-xs font-medium uppercase text-gray-500">
+                                <p className="text-xs font-medium uppercase text-gray-500 dark:text-gray-400 dark:text-gray-500 transition-colors">
                                     Email
                                 </p>
 
-                                <p className="mt-1 text-sm text-gray-900">
+                                <p className="mt-1 text-sm text-gray-900 dark:text-white transition-colors">
                                     {interview.application
                                         ?.candidate?.email ||
                                         "N/A"}
@@ -429,11 +428,11 @@ qqqa
                             </div>
 
                             <div>
-                                <p className="text-xs font-medium uppercase text-gray-500">
+                                <p className="text-xs font-medium uppercase text-gray-500 dark:text-gray-400 dark:text-gray-500 transition-colors">
                                     Phone
                                 </p>
 
-                                <p className="mt-1 text-sm text-gray-900">
+                                <p className="mt-1 text-sm text-gray-900 dark:text-white transition-colors">
                                     {interview.application
                                         ?.candidate?.phone ||
                                         "N/A"}
@@ -441,11 +440,11 @@ qqqa
                             </div>
 
                             <div>
-                                <p className="text-xs font-medium uppercase text-gray-500">
+                                <p className="text-xs font-medium uppercase text-gray-500 dark:text-gray-400 dark:text-gray-500 transition-colors">
                                     Job
                                 </p>
 
-                                <p className="mt-1 text-sm font-medium text-gray-900">
+                                <p className="mt-1 text-sm font-medium text-gray-900 dark:text-white transition-colors">
                                     {interview.application
                                         ?.job?.title ||
                                         "N/A"}
@@ -453,11 +452,11 @@ qqqa
                             </div>
 
                             <div>
-                                <p className="text-xs font-medium uppercase text-gray-500">
+                                <p className="text-xs font-medium uppercase text-gray-500 dark:text-gray-400 dark:text-gray-500 transition-colors">
                                     Department
                                 </p>
 
-                                <p className="mt-1 text-sm text-gray-900">
+                                <p className="mt-1 text-sm text-gray-900 dark:text-white transition-colors">
                                     {interview.application
                                         ?.job?.department ||
                                         "N/A"}
@@ -465,11 +464,11 @@ qqqa
                             </div>
 
                             <div>
-                                <p className="text-xs font-medium uppercase text-gray-500">
+                                <p className="text-xs font-medium uppercase text-gray-500 dark:text-gray-400 dark:text-gray-500 transition-colors">
                                     Location
                                 </p>
 
-                                <p className="mt-1 text-sm text-gray-900">
+                                <p className="mt-1 text-sm text-gray-900 dark:text-white transition-colors">
                                     {interview.application
                                         ?.job?.location ||
                                         "N/A"}
@@ -480,14 +479,14 @@ qqqa
 
                     {/* Interview Details */}
                     <div className="px-6 py-5">
-                        <h2 className="mb-5 text-lg font-semibold text-gray-900">
+                        <h2 className="mb-5 text-lg font-semibold text-gray-900 dark:text-white transition-colors">
                             Interview
                         </h2>
 
                         <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
                             {/* Interviewers */}
                             <div className="md:col-span-2">
-                                <label className="mb-1 block text-sm font-medium text-gray-700">
+                                <label className="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300 transition-colors">
                                     Interviewers
                                 </label>
 
@@ -518,7 +517,7 @@ qqqa
 
                             {/* Round */}
                             <div>
-                                <label className="mb-1 block text-sm font-medium text-gray-700">
+                                <label className="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300 transition-colors">
                                     Round
                                 </label>
 
@@ -533,13 +532,13 @@ qqqa
                                         handleChange
                                     }
                                     disabled={!canUpdate}
-                                    className="w-full rounded-md border border-gray-300 px-3 py-2 disabled:bg-gray-100"
+                                    className="w-full rounded-md border border-gray-300 dark:border-gray-600 px-3 py-2 disabled:bg-gray-100 dark:bg-gray-700 transition-colors"
                                 />
                             </div>
 
                             {/* Interview Type */}
                             <div>
-                                <label className="mb-1 block text-sm font-medium text-gray-700">
+                                <label className="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300 transition-colors">
                                     Interview Type
                                 </label>
 
@@ -552,7 +551,7 @@ qqqa
                                         handleChange
                                     }
                                     disabled={!canUpdate}
-                                    className="w-full rounded-md border border-gray-300 px-3 py-2 disabled:bg-gray-100"
+                                    className="w-full rounded-md border border-gray-300 dark:border-gray-600 px-3 py-2 disabled:bg-gray-100 dark:bg-gray-700 transition-colors"
                                 >
                                     <option value="">
                                         Select type
@@ -578,7 +577,7 @@ qqqa
 
                             {/* Mode */}
                             <div>
-                                <label className="mb-1 block text-sm font-medium text-gray-700">
+                                <label className="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300 transition-colors">
                                     Mode
                                 </label>
 
@@ -591,7 +590,7 @@ qqqa
                                         handleChange
                                     }
                                     disabled={!canUpdate}
-                                    className="w-full rounded-md border border-gray-300 px-3 py-2 disabled:bg-gray-100"
+                                    className="w-full rounded-md border border-gray-300 dark:border-gray-600 px-3 py-2 disabled:bg-gray-100 dark:bg-gray-700 transition-colors"
                                 >
                                     <option value="Online">
                                         Online
@@ -605,7 +604,7 @@ qqqa
 
                             {/* Status */}
                             <div>
-                                <label className="mb-1 block text-sm font-medium text-gray-700">
+                                <label className="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300 transition-colors">
                                     Status
                                 </label>
 
@@ -618,7 +617,7 @@ qqqa
                                         handleChange
                                     }
                                     disabled={!canUpdate}
-                                    className="w-full rounded-md border border-gray-300 px-3 py-2 disabled:bg-gray-100"
+                                    className="w-full rounded-md border border-gray-300 dark:border-gray-600 px-3 py-2 disabled:bg-gray-100 dark:bg-gray-700 transition-colors"
                                 >
                                     <option value="Scheduled">
                                         Scheduled
@@ -636,7 +635,7 @@ qqqa
 
                             {/* Start Time */}
                             <div>
-                                <label className="mb-1 block text-sm font-medium text-gray-700">
+                                <label className="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300 transition-colors">
                                     Start Time
                                 </label>
 
@@ -650,13 +649,13 @@ qqqa
                                         handleChange
                                     }
                                     disabled={!canUpdate}
-                                    className="w-full rounded-md border border-gray-300 px-3 py-2 disabled:bg-gray-100"
+                                    className="w-full rounded-md border border-gray-300 dark:border-gray-600 px-3 py-2 disabled:bg-gray-100 dark:bg-gray-700 transition-colors"
                                 />
                             </div>
 
                             {/* End Time */}
                             <div>
-                                <label className="mb-1 block text-sm font-medium text-gray-700">
+                                <label className="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300 transition-colors">
                                     End Time
                                 </label>
 
@@ -670,7 +669,7 @@ qqqa
                                         handleChange
                                     }
                                     disabled={!canUpdate}
-                                    className="w-full rounded-md border border-gray-300 px-3 py-2 disabled:bg-gray-100"
+                                    className="w-full rounded-md border border-gray-300 dark:border-gray-600 px-3 py-2 disabled:bg-gray-100 dark:bg-gray-700 transition-colors"
                                 />
                             </div>
 
@@ -678,7 +677,7 @@ qqqa
                             {formData.mode ===
                                 "Online" && (
                                 <div className="md:col-span-2">
-                                    <label className="mb-1 block text-sm font-medium text-gray-700">
+                                    <label className="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300 transition-colors">
                                         Meeting Link
                                     </label>
 
@@ -693,7 +692,7 @@ qqqa
                                         }
                                         disabled={!canUpdate}
                                         placeholder="https://..."
-                                        className="w-full rounded-md border border-gray-300 px-3 py-2 disabled:bg-gray-100"
+                                        className="w-full rounded-md border border-gray-300 dark:border-gray-600 px-3 py-2 disabled:bg-gray-100 dark:bg-gray-700 transition-colors"
                                     />
                                 </div>
                             )}
@@ -702,7 +701,7 @@ qqqa
                             {formData.mode ===
                                 "Offline" && (
                                 <div className="md:col-span-2">
-                                    <label className="mb-1 block text-sm font-medium text-gray-700">
+                                    <label className="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300 transition-colors">
                                         Location
                                     </label>
 
@@ -717,7 +716,7 @@ qqqa
                                         }
                                         disabled={!canUpdate}
                                         placeholder="Interview location"
-                                        className="w-full rounded-md border border-gray-300 px-3 py-2 disabled:bg-gray-100"
+                                        className="w-full rounded-md border border-gray-300 dark:border-gray-600 px-3 py-2 disabled:bg-gray-100 dark:bg-gray-700 transition-colors"
                                     />
                                 </div>
                             )}
@@ -733,7 +732,7 @@ qqqa
                                         handleDelete
                                     }
                                     disabled={deleting}
-                                    className="rounded-md bg-red-600 px-4 py-2 text-sm font-medium text-white hover:bg-red-700 disabled:cursor-not-allowed disabled:opacity-50"
+                                    className="rounded-md bg-red-600 dark:bg-red-500 px-4 py-2 text-sm font-medium text-white hover:bg-red-700 dark:hover:bg-red-400 disabled:cursor-not-allowed disabled:opacity-50 transition-colors"
                                 >
                                     {deleting
                                         ? "Deleting..."
@@ -747,7 +746,7 @@ qqqa
                                 onClick={() =>
                                     navigate(-1)
                                 }
-                                className="rounded-md bg-gray-200 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-300"
+                                className="rounded-md bg-gray-200 dark:bg-gray-700 px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
                             >
                                 Cancel
                             </button>
